@@ -230,8 +230,7 @@ def plot_stats_with_layout(astra_object, ykeys=['sigma_x', 'sigma_y'], ykeys2=['
     if include_particles:
         try:
             for pname in range(len(I.particles)): # Modified from Impact
-                xp_alive = I.output["particles"][pname].where(I.output["particles"][pname].status == 1)
-                xp = xp_alive[xkey]
+                xp = I.particles[pname].where(I.particles[pname].status == 1)[xkey]
                 if xp >= xlim[0] and xp <= xlim[1]:
                     Pnames.append(pname)
                     X_particles.append(xp)
@@ -299,7 +298,7 @@ def plot_stats_with_layout(astra_object, ykeys=['sigma_x', 'sigma_y'], ykeys2=['
             # Particles
             if Pnames:
                 try:
-                    Y_particles = np.array([I.particles[name][key] for name in Pnames])
+                    Y_particles = np.array([I.particles[name].where(I.particles[name].status == 1)[key] for name in Pnames])
                     ax.scatter(X_particles/factor_x, Y_particles/factor, color=color) 
                 except:
                     pass    
